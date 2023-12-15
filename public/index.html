@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAB1</title>
+</head>
+<body class="bg-[#0F172A] text-white relative">
+    <div class="flex space-x-2 items-center">
+        <button type="submit" id="btnAddStaff" class="px-4 py-2 bg-blue-400 rounded-xl">Add Staff</button>
+        <button type="submit" id="btnShowStaffs" class="px-4 py-2 bg-blue-400 rounded-xl">List Staff</button>
+        <div class="border bg-blue-400 p-[1px] rounded-xl text-black">
+            <input type="number" name="keySearchStaff" id="keySearchStaff" placeholder="Nhập ID nhân viên" class="outline-none p-2 rounded-xl">
+            <button id="btnSearch" type="submit" class="border rounded-xl p-[2px]">Search</button>
+        </div>
+        <div class="border bg-blue-400 p-[1px] rounded-xl text-black">
+            <input type="number" name="keyDelStaff" id="keyDelStaff" placeholder="Nhập ID nhân viên" class="outline-none p-2 rounded-xl">
+            <button id="btnDel" type="submit" class="border rounded-xl p-[2px]">Delete</button>
+        </div>
+    </div>
+    <div class="hidden" id="formInput">
+        <div class="absolute inset-0 flex justify-center items-center w-full h-screen bg-violet-500 z-[100]">
+            <span id="btnCloseForm" class="text-center text-2xl border rounded-full p-[2px] absolute top-[50px] right-[150px] cursor-pointer w-[38px]">x</span>
+            <form action="#" class="flex flex-col w-[500px] space-y-2 border p-4">
+                <label for="idStaff">Mã nhân viên</label>
+                <input type="number" name="idStaff" id="idStaff" placeholder="VD: 1" class="text-black p-2 rounded-xl">
+                <label for="nameStaff">Họ và tên nhân viên</label>
+                <input type="text" name="name" id="nameStaff" placeholder="VD: Nguyen Van A" class="text-black p-2 rounded-xl">
+                <label for="regencyStaff">Vị trí làm việc</label>
+                <input type="text" name="regencyStaff" id="regencyStaff" placeholder="VD: Employee" class="text-black p-2 rounded-xl">
+                <button type="submit" id="addStaff" class="px-4 py-2 bg-blue-400 rounded-xl">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="listStaffs" class="hidden absolute inset-0 flex justify-center items-center w-full h-screen bg-violet-500 z-[100]">
+        <span id="btnCloseList" class="text-center text-2xl border rounded-full p-[2px] absolute top-[50px] right-[150px] cursor-pointer w-[38px]">x</span>
+       <table id="tStaffs" class="border-separate border-spacing-6 border border-slate-400">
+        <thead class="border space-2">
+            <th>ID</th>
+            <th>Họ và Tên</th>
+            <th>Chức Vụ</th>
+            <th>Lương</th>
+            <th>Thuế</th>
+        </thead>
+        <tbody id="tBodyStaffs" class="border space-2">
+
+        </tbody>
+       </table>
+
+    </div>
+
+
+
+
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./index.js"></script>
+</body>
+</html>
