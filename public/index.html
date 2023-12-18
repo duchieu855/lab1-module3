@@ -8,7 +8,9 @@
 <body class="bg-[#0F172A] text-white relative">
     <div class="flex space-x-2 items-center">
         <button type="submit" id="btnAddStaff" class="px-4 py-2 bg-blue-400 rounded-xl">Add Staff</button>
-        <button type="submit" id="btnShowStaffs" class="px-4 py-2 bg-blue-400 rounded-xl">List Staff</button>
+        <button type="submit" id="btnShowStaffs" class="px-4 py-2 bg-blue-400 rounded-xl">List Staffs</button>
+        <button type="submit" id="btnSortStaffs" class="px-4 py-2 bg-blue-400 rounded-xl">Sort Staffs By ID </button>
+        <button type="submit" id="btnTopSalary" class="px-4 py-2 bg-blue-400 rounded-xl">Staffs Highest Salary </button>
         <div class="border bg-blue-400 p-[1px] rounded-xl text-black">
             <input type="number" name="keySearchStaff" id="keySearchStaff" placeholder="Nhập ID nhân viên" class="outline-none p-2 rounded-xl">
             <button id="btnSearch" type="submit" class="border rounded-xl p-[2px]">Search</button>
@@ -17,18 +19,26 @@
             <input type="number" name="keyDelStaff" id="keyDelStaff" placeholder="Nhập ID nhân viên" class="outline-none p-2 rounded-xl">
             <button id="btnDel" type="submit" class="border rounded-xl p-[2px]">Delete</button>
         </div>
+        <div class="border bg-blue-400 p-[1px] rounded-xl text-black">
+            <input type="number" name="keyFixStaff" id="keyFixStaff" placeholder="Nhập ID nhân viên" class="outline-none p-2 rounded-xl">
+            <button id="btnFix" type="submit" class="border rounded-xl p-[2px]">Fix Staff</button>
+        </div>
+
     </div>
     <div class="hidden" id="formInput">
         <div class="absolute inset-0 flex justify-center items-center w-full h-screen bg-violet-500 z-[100]">
             <span id="btnCloseForm" class="text-center text-2xl border rounded-full p-[2px] absolute top-[50px] right-[150px] cursor-pointer w-[38px]">x</span>
-            <form action="#" class="flex flex-col w-[500px] space-y-2 border p-4">
+            <form  id="form1" action="#" class="flex flex-col w-[500px] space-y-2 border p-4">
                 <label for="idStaff">Mã nhân viên</label>
                 <input type="number" name="idStaff" id="idStaff" placeholder="VD: 1" class="text-black p-2 rounded-xl">
                 <label for="nameStaff">Họ và tên nhân viên</label>
                 <input type="text" name="name" id="nameStaff" placeholder="VD: Nguyen Van A" class="text-black p-2 rounded-xl">
                 <label for="regencyStaff">Vị trí làm việc</label>
                 <input type="text" name="regencyStaff" id="regencyStaff" placeholder="VD: Employee" class="text-black p-2 rounded-xl">
+            
                 <button type="submit" id="addStaff" class="px-4 py-2 bg-blue-400 rounded-xl">Add</button>
+                <button type="submit" id="fixStaff" class="px-4 py-2 bg-blue-400 rounded-xl hidden">Fix</button>
+                
             </form>
         </div>
     </div>

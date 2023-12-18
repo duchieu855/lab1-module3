@@ -20,10 +20,19 @@
     
     
     const app = (() => {
+        const form1 = $("form1");
+        form1.onsubmit = (e:any) => {
+            e.preventDefault();
+        }
+
         const btnAddStaff = $("btnAddStaff");
         const btnShowStaffs = $("btnShowStaffs");
         const btnSearch = $("btnSearch");
         const btnDel = $("btnDel");
+        const btnSortStaffs = $("btnSortStaffs");
+        const btnFix = $("btnFix");
+        const btnTopSalary = $("btnTopSalary");
+
 
         const listStaffs = $("listStaffs");
         const formInput = $("formInput");
@@ -33,19 +42,27 @@
         const nameStaff = $("nameStaff");
         const regencyStaff = $("regencyStaff");
         const addStaff = $("addStaff");
+        const fixStaff = $("fixStaff");
         const tBodyStaff = $("tBodyStaffs");
         const keySearchStaff = $("keySearchStaff");
         const keyDelStaff = $("keyDelStaff");
+        const keyFixStaff = $("keyFixStaff");
+
 
         return {
             add() {
-                addStaff.onclick = (e:any) => {
-                    e.preventDefault;
-                    
+                
+                if ((addStaff.classList.contains("hidden"))&&!(fixStaff.classList.contains("hidden"))) {
+                    fixStaff.classList.add("hidden");
+                    addStaff.classList.remove("hidden");
+                }
+                
+                addStaff.onclick = () => {
+
                     staff.id = idStaff.value;
                     staff.name = nameStaff.value;
                     staff.regency = regencyStaff.value;
-                    console.log (this.totalSalaryStaff(staff.regency.toLowerCase()));
+                    // console.log (this.totalSalaryStaff(staff.regency.toLowerCase()));
                     [staff.totalSalary , staff.tax] = this.totalSalaryStaff(staff.regency.toLowerCase());
                     staffs.push({...staff});
                     console.log(staff,staffs);
@@ -58,15 +75,53 @@
 
                 
             },
-            find (key:number) {
+            fix(key : number) {
+                if (!(addStaff.classList.contains("hidden"))&&(fixStaff.classList.contains("hidden"))) {
+                    fixStaff.classList.remove("hidden");
+                    addStaff.classList.add("hidden");
+                }
+                const indexStaffFix = staffs.findIndex((element : staff) => element.id === key);
+                
+                    console.log("indexStaffFix",indexStaffFix);
+                    idStaff.value = staffs[indexStaffFix].id;
+                    nameStaff.value = staffs[indexStaffFix].name;
+                    regencyStaff.value = staffs[indexStaffFix].regency;
+                    fixStaff.onclick = () => {
+                        staffs[indexStaffFix].id = idStaff.value;
+                        staffs[indexStaffFix].name = nameStaff.value;
+                        staffs[indexStaffFix].regency = regencyStaff.value;
+                        [staffs[indexStaffFix].totalSalary , staffs[indexStaffFix].tax] = this.totalSalaryStaff(staffs[indexStaffFix].regency.toLowerCase());
+
+                        formInput.classList.toggle("hidden");
+                        keyFixStaff.value = "";
+                        keyFixStaff.focus();
+                    }
+                
+            },
+            findTopSalary () {
+                const lengthStaffs = staffs.length;
+                if (lengthStaffs >= 5) {
+                    const newStaffs = ([...staffs].sort((a,b) => a.totalSalary - b.totalSalary));
+
+                    return newStaffs.splice(lengthStaffs - 6 ,5);
+                }
+            },
+            findID (key:number) {
                 
                 return [staffs.find((element:staff) => element.id === key)];
             },
             delete(key:number){
                 const indexStaffDel = staffs.findIndex((element : staff) => element.id === key);
-                console.log(indexStaffDel);
-                console.log(staffs.splice(indexStaffDel,1))
-                return staffs.splice(indexStaffDel,1);
+                // console.log(indexStaffDel);
+                const newStaffs = [...staffs]
+                newStaffs.splice(indexStaffDel,1);
+                // console.log(newStaffs);
+                return newStaffs;
+            },
+            sortID (array : staff[]) { 
+                const array2 = [...array];
+
+                return array2.sort((a,b)=> a.id - b.id);
             },
             totalSalaryStaff (regencyStaff : string) : number[] {
                 const basicSalary : number = 8500000;
@@ -104,15 +159,17 @@
             render(elements : Array <staff>){ 
                 // console.log(tBodyStaff)
                 tBodyStaff.innerHTML = "";
-                elements.forEach((e:staff) => {
-                    const row = tBodyStaff.insertRow(-1);
-                    row.insertCell(0).innerHTML = e.id;
-                    row.insertCell(1).innerHTML = e.name;
-                    row.insertCell(2).innerHTML = e.regency;
-                    row.insertCell(3).innerHTML = e.totalSalary;
-                    row.insertCell(4).innerHTML = e.tax;
+                if (elements) {
+                    elements.forEach((e:staff) => {
+                        const row = tBodyStaff.insertRow(-1);
+                        row.insertCell(0).innerHTML = e.id;
+                        row.insertCell(1).innerHTML = e.name;
+                        row.insertCell(2).innerHTML = e.regency;
+                        row.insertCell(3).innerHTML = e.totalSalary;
+                        row.insertCell(4).innerHTML = e.tax;
                     
-                })
+                    })
+                }
 
             },
             init() {
@@ -139,7 +196,7 @@
                 btnSearch.onclick = () => {
                     listStaffs.classList.toggle("hidden");
                     if (keySearchStaff.value) {
-                        const valueKey = this.find(keySearchStaff.value);
+                        const valueKey = this.findID(keySearchStaff.value);
                         // console.log(valueKey);
                         this.render(valueKey);
                     }
@@ -166,7 +223,45 @@
                     }
                 }
                 
-                
+                btnSortStaffs.onclick = () => {
+                    listStaffs.classList.toggle("hidden");
+                    const newStaffs = this.sortID(staffs);
+                    console.log(newStaffs);
+                    this.render(newStaffs);
+                    const btnCloseList = $("btnCloseList");
+                    btnCloseList.onclick = ()=> {
+                        listStaffs.classList.toggle("hidden");
+                    }
+                }
+
+                btnFix.onclick = () => {
+                    listStaffs.classList.add("hidden");
+                    formInput.classList.toggle("hidden");
+                    console.log(keyFixStaff.value);
+                    this.fix(keyFixStaff.value);
+                    const btnCloseForm = $("btnCloseForm");
+                    btnCloseForm.onclick = ()=> {
+                        formInput.classList.toggle("hidden");
+                        keyFixStaff.value = "";
+                        keyFixStaff.focus();
+                    }
+                }
+
+                btnTopSalary.onclick = () => {
+                    listStaffs.classList.toggle("hidden");
+                    const topStaffs = this.findTopSalary();
+                    console.log(topStaffs);
+                    this.render(topStaffs);
+                    const btnCloseList = $("btnCloseList");
+                    btnCloseList.onclick = ()=> {
+                        listStaffs.classList.toggle("hidden");
+                    }
+                }
+
+
+
+
+
             }
         }
     })();
